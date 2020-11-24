@@ -302,26 +302,38 @@ which_max_idx.sparta <- function(x) {
 print.sparta <- function(x, ...) {
   if (inherits(x, "sparta_unity")) {
     cat(" <sparta_unity>\n")
-    cat(" ", paste(names(x), sep = ","), "\n")
+    cat("  variables:", paste(names(x), collapse = ", "), "\n")
   } else {
-    cat(" <cells>")
-    prmatrix(
-      x,
-      rowlab = names(attr(x, "dim_names")),
-      collab = rep("", ncol(x))
-    )
-    cat("\n <vals>")
-    prmatrix(
-      matrix(attr(x, "vals"), nrow = 1L),
-      rowlab = "",
-      collab = rep("", length(attr(x, "vals")))
-    )
+    d <- as.data.frame(t(x))
+    colnames(d) <- names(x)
+    d[["val"]] <- vals(x)
+    print(d)    
   }
-  ## cat("\n <dim_names>\n")
-  ## dn  <- attr(x, "dim_names")
-  ## ndn <- names(dn)
-  ## for (k in 1:length(dn)) {
-  ##   dn_k <- paste(ndn[k], ": ", paste(dn[[k]], collapse = ", "), sep = "")
-  ##   cat(dn_k, "\n")
-  ## }
 }
+
+## print.sparta <- function(x, ...) {
+##   if (inherits(x, "sparta_unity")) {
+##     cat(" <sparta_unity>\n")
+##     cat(" ", paste(names(x), sep = ","), "\n")
+##   } else {
+##     cat(" <cells>")
+##     prmatrix(
+##       x,
+##       rowlab = names(attr(x, "dim_names")),
+##       collab = rep("", ncol(x))
+##     )
+##     cat("\n <vals>")
+##     prmatrix(
+##       matrix(attr(x, "vals"), nrow = 1L),
+##       rowlab = "",
+##       collab = rep("", length(attr(x, "vals")))
+##     )
+##   }
+##   ## cat("\n <dim_names>\n")
+##   ## dn  <- attr(x, "dim_names")
+##   ## ndn <- names(dn)
+##   ## for (k in 1:length(dn)) {
+##   ##   dn_k <- paste(ndn[k], ": ", paste(dn[[k]], collapse = ", "), sep = "")
+##   ##   cat(dn_k, "\n")
+##   ## }
+## }

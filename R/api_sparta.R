@@ -201,13 +201,11 @@ marg.sparta <- function(x, y, flow = "sum") {
     return(sum(x))
   }
 
-  m <- marginalize_(
-    x,
-    vals(x),
-    xnames,
-    y,
-    ifelse(flow == "sum", TRUE, FALSE)
-  )
+  m <- if (flow == "sum") {
+    marginalize_sum_(x, vals(x), xnames, y)
+  } else {
+    marginalize_max_(x, vals(x), xnames, y)
+  }
 
   sparta_struct(
     m[[1]],

@@ -1,3 +1,7 @@
+# sparta v0.6.1 (2020-11-24)
+
+ * marginalization is now faster due to some refactoring
+
 # sparta v0.6.0 (2020-11-09)
 
  * Prevent print from printing dimension names

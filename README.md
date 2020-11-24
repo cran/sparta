@@ -7,6 +7,7 @@ sparta: Sparse Tables
 
 [![R build
 status](https://github.com/mlindsk/sparta/workflows/R-CMD-check/badge.svg)](https://github.com/mlindsk/sparta/actions)
+[![](https://www.r-pkg.org/badges/version/sparta?color=green)](https://cran.r-project.org/package=sparta)
 <!-- badges: end -->
 
 ## About
