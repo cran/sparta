@@ -64,7 +64,7 @@ sparta_unity_struct <- function(dim_names, rank = 1L) {
 #' )
 #'
 #' sx <- as_sparta(x)
-#' sparta_struct(sx, vals(sx), dim_names(sx))
+#' sparta_struct(unclass(sx), vals(sx), dim_names(sx))
 #' @export
 sparta_struct <- function(x, vals, dim_names) {
   cond <- inherits(x, "matrix") &&
@@ -73,6 +73,7 @@ sparta_struct <- function(x, vals, dim_names) {
     length(dim_names) == nrow(x)
   stopifnot(cond)
   storage.mode(x) <- "integer"
+  rownames(x) <- names(dim_names)
   structure(
     x,
     vals = vals,
@@ -173,7 +174,7 @@ sparsity <- function(x) UseMethod("sparsity")
 
 #' @rdname sparsity
 #' @export
-sparsity.sparta <- function(x) ncol(x) / prod(.map_int(sparta::dim_names(x), length))
+sparsity.sparta <- function(x) 1 - ncol(x) / prod(.map_int(sparta::dim_names(x), length))
 
 #' Normalize
 
@@ -391,16 +392,11 @@ print.sparta <- function(x, ...) {
     cat("  rank:", attr(x, "rank"), "\n")
     cat("  variables:", paste(names(x), collapse = ", "), "\n")
   } else {
-    # d <- as.data.frame(t(x))
-    # colnames(d) <- names(x)
-    # d[["val"]] <- vals(x)
-    # print(d)
-    d <- as.data.frame(
-      rbind(x, vals(x)),
-      row.names = c(names(x), "val"),
-      col.names = NULL
-    )
-    colnames(d) <- rep("", ncol(d))
+    d <- as.data.frame(t(x))
+    colnames(d) <- names(x)
+    d[["val"]] <- round(vals(x), 3)
     print(d)
   }
 }
+
+
