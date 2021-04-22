@@ -1,8 +1,8 @@
 Package: sparta
 Type: Package
 Title: Sparse Tables
-Version: 0.7.2
-Date: 2021-04-03
+Version: 0.7.3
+Date: 2021-04-22
 Authors@R: 
   c(person(given = "Mads",
            family = "Lindskou",
@@ -15,13 +15,13 @@ Imports: Rcpp (>= 1.0.5)
 LinkingTo: Rcpp, RcppArmadillo
 SystemRequirements: C++11
 ByteCompile: Yes
+NeedsCompilation: yes
 RoxygenNote: 7.1.1
 Suggests: tinytest
 URL: https://github.com/mlindsk/sparta
 BugReports: https://github.com/mlindsk/sparta/issues
-NeedsCompilation: yes
-Packaged: 2021-04-03 17:34:39 UTC; mads
+Packaged: 2021-04-22 05:42:24 UTC; mads
 Author: Mads Lindskou [aut, cre]
 Maintainer: Mads Lindskou <mads@math.aau.dk>
 Repository: CRAN
-Date/Publication: 2021-04-03 18:00:03 UTC
+Date/Publication: 2021-04-22 06:30:02 UTC
