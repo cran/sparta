@@ -3,31 +3,31 @@
 \name{mult}
 \alias{mult}
 \alias{mult.sparta}
-\alias{mult.double}
+\alias{mult.numeric}
 \alias{div}
 \alias{div.sparta}
-\alias{div.double}
+\alias{div.numeric}
 \title{Multiplication and division of sparse tables}
 \usage{
 mult(x, y)
 
 \method{mult}{sparta}(x, y)
 
-\method{mult}{double}(x, y)
+\method{mult}{numeric}(x, y)
 
 div(x, y)
 
 \method{div}{sparta}(x, y)
 
-\method{div}{double}(x, y)
+\method{div}{numeric}(x, y)
 }
 \arguments{
-\item{x}{sparta object}
+\item{x}{sparta object or scalar}
 
 \item{y}{sparta object or scalar}
 }
 \value{
-A sparta object
+A sparta object or a scalar
 }
 \description{
 Multiplication and division of sparse tables
@@ -64,8 +64,10 @@ y <- array(
 sx <- as_sparta(x)
 sy <- as_sparta(y)
 
+sparsity(sx)
+table_size(sx)
 dim_names(sx)
-dim_names(sy)
+names(sx)
 
 mult(sx, sy)
 div(sy, sx)
@@ -82,20 +84,23 @@ ds1  <- as_sparta(d1)
 ds2  <- as_sparta(d2)
 
 mult(ds1, ds2)
-div(ds1, ds2)
 
 # ----------
 # Example 3)
 # ----------
 
-su <- sparta_unity_struct(dim_names(sy), rank = 1)
-mult(sx, su)
-div(su, sx)
+su <- sparta_unity_struct(dim_names(sy), rank = 3.1415)
+sparta_rank(su)
+sum(su)
+sun <- normalize(su)
+sun
+sum(sun)
+
+mult(sx, sun)
 
 # ----------
 # Example 4)
 # ----------
 so <- sparta_ones(dim_names(sx))
 mult(so, 2)
-div(so, -2)
 }

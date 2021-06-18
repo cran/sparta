@@ -9,7 +9,7 @@ merge <- function(x, y, mult = TRUE) {
   
   if (is_y_scalar) {
     if (is_x_unity) {
-      attr(x, "rank") <- attr(x, "rank") * y
+      attr(x, "vals") <- attr(x, "vals") * y
       return(x)
     }
     attr(x, "vals") <- if (mult) attr(x, "vals") * y else attr(x, "vals") / y
@@ -17,23 +17,29 @@ merge <- function(x, y, mult = TRUE) {
   }
 
   is_y_unity <- inherits(y, "sparta_unity")
-
-  dn1 <- attr(x, "dim_names")
-  dn2 <- attr(y, "dim_names")
-  dn  <- c(dn1, dn2[setdiff(names(dn2), names(dn1))])
+  dn1        <- attr(x, "dim_names")
+  dn2        <- attr(y, "dim_names")
+  dn         <- c(dn1, dn2[setdiff(names(dn2), names(dn1))])
 
   if (is_x_unity && is_y_unity) {
-    return(sparta_unity_struct(dn, attr(x, "rank") * attr(y, "rank")))
+    return(sparta_unity_struct(dn, if (mult) attr(x, "vals") * attr(y, "vals") else attr(x, "vals") / attr(y, "vals")))
   }
+
+  x_in_y <- all(names(x) %in% names(y))
+  y_in_x <- all(names(y) %in% names(x))
   
   m <- if (is_x_unity || is_y_unity) {
     if (is_y_unity && !is_x_unity) {
       ydim <- .map_int(dim_names(y), length)
-      merge_unity_(x, vals(x), names(x), names(y), ydim, attr(y, "rank"))
+      merge_unity_(x, vals(x), names(x), names(y), ydim, attr(y, "vals"))
     } else if (!is_y_unity && is_x_unity) {
       xdim <-.map_int(dim_names(x), length)
-      merge_unity_(y, vals(y), names(y), names(x), xdim, attr(x, "rank"), ifelse(mult, FALSE, TRUE))
+      merge_unity_(y, vals(y), names(y), names(x), xdim, attr(x, "vals"), ifelse(mult, FALSE, TRUE))
     }
+  } else if (x_in_y) {
+    merge_subset_(x, y, vals(x), vals(y), names(x), names(y), ifelse(mult, "*", "/"))
+  } else if (y_in_x){
+    merge_subset_(y, x, vals(y), vals(x), names(y), names(x), ifelse(mult, "*", "/"))
   } else {
     merge_(x, y, vals(x), vals(y), names(x), names(y), ifelse(mult, "*", "/"))
   }
@@ -43,9 +49,9 @@ merge <- function(x, y, mult = TRUE) {
 
 
 #' @title Multiplication and division of sparse tables
-#' @param x sparta object
+#' @param x sparta object or scalar
 #' @param y sparta object or scalar
-#' @return A sparta object
+#' @return A sparta object or a scalar
 #' @examples
 #'
 #' # ----------
@@ -78,9 +84,11 @@ merge <- function(x, y, mult = TRUE) {
 #' sx <- as_sparta(x)
 #' sy <- as_sparta(y)
 #'
+#' sparsity(sx)
+#' table_size(sx)
 #' dim_names(sx)
-#' dim_names(sy)
-#'
+#' names(sx)
+#' 
 #' mult(sx, sy)
 #' div(sy, sx)
 #'
@@ -96,22 +104,25 @@ merge <- function(x, y, mult = TRUE) {
 #' ds2  <- as_sparta(d2)
 #'
 #' mult(ds1, ds2)
-#' div(ds1, ds2)
 #'
 #' # ----------
 #' # Example 3)
 #' # ----------
 #'
-#' su <- sparta_unity_struct(dim_names(sy), rank = 1)
-#' mult(sx, su)
-#' div(su, sx)
+#' su <- sparta_unity_struct(dim_names(sy), rank = 3.1415)
+#' sparta_rank(su)
+#' sum(su)
+#' sun <- normalize(su)
+#' sun
+#' sum(sun)
 #'
+#' mult(sx, sun)
+#' 
 #' # ----------
 #' # Example 4)
 #' # ----------
 #' so <- sparta_ones(dim_names(sx))
 #' mult(so, 2)
-#' div(so, -2)
 
 #' @rdname merge
 #' @export
@@ -121,14 +132,25 @@ mult <- function(x, y) UseMethod("mult")
 #' @export
 mult.sparta <- function(x, y) merge(x, y)
 
+# #' @rdname merge
+# #' @export
+# mult.double <- function(x, y) {
+#   if (!is_scalar(x)) stop("x must be of class 'sparta' or a scalar", call. = FALSE)
+#   if (!inherits(y, "sparta")) {
+#     stop("y must be a 'sparta' object when x is a scalar", call. = FALSE)
+#   }
+#   merge(y, x)
+# }
+
 #' @rdname merge
 #' @export
-mult.double <- function(x, y) {
+mult.numeric <- function(x, y) {
   if (!is_scalar(x)) stop("x must be of class 'sparta' or a scalar", call. = FALSE)
-  if (!inherits(y, "sparta")) {
-    stop("y must be a 'sparta' object when x is a scalar", call. = FALSE)
+  if (is_scalar(y)) return(x * y)
+  if (inherits(y, "sparta")) {
+    merge(y, x)
   }
-  merge(y, x)
+
 }
 
 #' @rdname merge
@@ -139,14 +161,24 @@ div <- function(x, y) UseMethod("div")
 #' @export
 div.sparta <- function(x, y) merge(x, y, FALSE)
 
+# #' @rdname merge
+# #' @export
+# div.double <- function(x, y) {
+#   if (!is_scalar(x)) stop("x must be of class 'sparta' or a scalar", call. = FALSE)
+#   if (!inherits(y, "sparta")) {
+#     stop("y must be a 'sparta' object when x is a scalar", call. = FALSE)
+#   }
+#   merge(y, x, FALSE)
+# }
+
 #' @rdname merge
 #' @export
-div.double <- function(x, y) {
+div.numeric <- function(x, y) {
   if (!is_scalar(x)) stop("x must be of class 'sparta' or a scalar", call. = FALSE)
-  if (!inherits(y, "sparta")) {
-    stop("y must be a 'sparta' object when x is a scalar", call. = FALSE)
+  if (is_scalar(y)) return(x / y)
+  if (inherits(y, "sparta")) {
+    merge(y, x, FALSE)
   }
-  merge(y, x, FALSE)
 }
 
 
@@ -157,7 +189,7 @@ div.double <- function(x, y) {
 #' @param x sparta object
 #' @param y character vector of the variables to marginalize out
 #' @param flow either "sum" or "max"
-#' @return A sparta object
+#' @return A sparta object (or scalar if all variables are summed out)
 #' @examples
 #'
 #' x <- array(
@@ -173,7 +205,7 @@ div.double <- function(x, y) {
 #' sx <- as_sparta(x)
 #' marg(sx, c("c"))
 #'
-#' su <- sparta_unity_struct(dim_names(sx), rank = 1.5)
+#' su <- sparta_unity_struct(dim_names(sx), rank = 3.14)
 #' marg(su, c("a", "b"))
 #' @export
 marg <- function(x, y, flow = "sum") UseMethod("marg")
@@ -182,9 +214,13 @@ marg <- function(x, y, flow = "sum") UseMethod("marg")
 #' @export
 marg.sparta <- function(x, y, flow = "sum") {
 
+  if (eq_empt_chr(y)) return(x)
+  
   if (inherits(x, "sparta_unity")) {
     dny <- dim_names(x)[y]
-    attr(x, "rank") <- attr(x, "rank") * prod(.map_dbl(dny, length))
+    attr(x, "vals") <- attr(x, "vals") * prod(.map_dbl(dny, length))
+
+    attr(x, "dim_names") <- dim_names(x)[setdiff(names(x), names(dny))]
     return(x)
   }
 
@@ -245,6 +281,9 @@ marg.sparta <- function(x, y, flow = "sum") {
 #' sxa2_drop <- slice(sx, c(a = "a2"), drop = TRUE)
 #' get_val(sxa2_drop, c(b = "b1", c = "c2"))
 #'
+#' u <- sparta_unity_struct(dim_names(sx))
+#' slice(u, c(a = "a1"), drop = TRUE)
+#' 
 #' @export
 slice <- function(x, s, drop = FALSE) UseMethod("slice")
 
@@ -252,18 +291,36 @@ slice <- function(x, s, drop = FALSE) UseMethod("slice")
 #' @export
 slice.sparta <- function(x, s, drop = FALSE) {
 
-  # TODO:
-  # let s be a list, so we can slice on arbitrary
-  # many levels for each variable in s
-  
-  if (inherits(x, "sparta_unity")) {
-    stop("a sparta_unity cannot be sliced. If needed, use 'sparta_ones'.", call. = FALSE)
+  if (length(s) == length(names(x)) && drop == TRUE) {
+    stop(
+      "cannot slice and drop all variables.",
+      " At least one variable must remain when drop = TRUE."
+    )
   }
-
+  
+  if (!is_non_empty_vector_chr(s)) {
+    stop("s must be a character vector of length > 0")
+  }
+  
   if (!all(names(s) %in% names(x))) {
     stop("some names in s are not in x. see `dim_names(x)`", call. = FALSE)
   }
+  
+  if (inherits(x, "sparta_unity")) {
+    if (drop == TRUE) {
+      dn_new <- dim_names(x)[setdiff(names(x), names(s))]
+      return(sparta_unity_struct(dn_new, rank = attr(x, "vals")))
+    } else {
+      stop(
+        "A sparta_unity cannot be sliced ",
+        "unless drop = TRUE. If needed, use 'sparta_ones'.", call. = FALSE)      
+    }
+  }
 
+  # IDEA:
+  # let s be a list, so we can slice on a range of levels
+  # i.e. list(a = c("a1", "a5"), b = c("b1"))
+  # will retain all levels of a that have "a1" and "a5"
   sp <- slice_(x, vals(x), dim_names(x), names(s), s)
 
   if (drop) {
