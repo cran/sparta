@@ -1,3 +1,7 @@
+# sparta v0.8.1 (2021-07-05)
+
+ * `as_sparta.data.frame` does no longer convert to an array first (expensive) and is therfore much more efficient now.
+
 # sparta v0.8.0 (2021-06-18)
 
  * `marg` is now more efficient when `y` is `character(0)`
