@@ -1,10 +1,10 @@
-6d6f3fbb5d6ff845c58b1e652f0f843e *DESCRIPTION
+5284a33d8f3c86bd67a76ac68e2da5e1 *DESCRIPTION
 9cbf0fb631a8271ca8bd5ffdc6dc2541 *LICENSE
-2d0be36e36723b900ef580fb83e3a8e7 *NAMESPACE
-e32350ed40dc277e5fecdeba21b21057 *NEWS.md
+77c783b3fc06f72a49502a2e7e9cf802 *NAMESPACE
+78dc36de681bc92889c6c8f5dadb06e4 *NEWS.md
 ab2e89b8ee47f92213038e156b338611 *R/RcppExports.R
 4c66d7e3b86f9689ebae89afd4233a4a *R/api_converters.R
-6be077e5875cad78a39ec48d1ba4a1f5 *R/api_sparta.R
+dbee44c5952ba4535adcf5f135dce386 *R/api_sparta.R
 74feea5da60a339ff0e707de1085eed8 *R/helpers_misc.R
 9f82d2985900f0f82828adb082506701 *R/helpers_sparta.R
 f56498b3fb11f64afe0c1ed5e61b9027 *R/sparta-package.R
@@ -18,7 +18,7 @@ fa1638f7e957cdd18f030f0e6cf61a80 *man/allowed_class_to_sparta.Rd
 3811a453f7796efa35d89bf8d29035c4 *man/equiv.Rd
 a1be1bc833fbef99e1d1281452b5a7f5 *man/get_val_cell.Rd
 860e87c5a7691146555139b5f1448232 *man/getter.Rd
-235a277b3275167e45a32ebfa480ee2d *man/marg.Rd
+a62771910f46225d681a00903696a872 *man/marg.Rd
 9a8efb4e30fe4a7e1abbb98f4825be18 *man/merge.Rd
 fc88487d4ec176b746a7948f975db08f *man/normalize.Rd
 97ada3dde7b242d46e3ff44ee92c521a *man/print.sparta.Rd
