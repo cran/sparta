@@ -1,3 +1,6 @@
+# sparta v0.8.3 (2022-02-07)
+ * `normalize` now returns `1` if applied to a `numeric`
+ 
 # sparta v0.8.2 (2021-11-24)
 
  * Bug fixed when mult/div two unities
