@@ -1,8 +1,8 @@
 Package: sparta
 Type: Package
 Title: Sparse Tables
-Version: 0.8.3
-Date: 2022-02-07
+Version: 0.8.3.1
+Date: 2022-03-20
 Authors@R: 
   c(person(given = "Mads",
            family = "Lindskou",
@@ -20,8 +20,8 @@ RoxygenNote: 7.1.2
 Suggests: tinytest
 URL: https://github.com/mlindsk/sparta
 BugReports: https://github.com/mlindsk/sparta/issues
-Packaged: 2022-02-07 12:01:08 UTC; mads
+Packaged: 2022-03-20 07:26:01 UTC; mads
 Author: Mads Lindskou [aut, cre]
 Maintainer: Mads Lindskou <mads@math.aau.dk>
 Repository: CRAN
-Date/Publication: 2022-02-07 12:20:02 UTC
+Date/Publication: 2022-03-20 07:50:02 UTC
