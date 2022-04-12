@@ -1,3 +1,7 @@
+# sparta v0.8.4 (2022-04-11)
+
+ * Vignette is now included.
+
 # sparta v0.8.3.1 (2022-03-20)
  * Hotfix in function `is_scalar` which is an issue in package `jti`
 

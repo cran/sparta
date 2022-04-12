@@ -1,12 +1,12 @@
 Package: sparta
 Type: Package
 Title: Sparse Tables
-Version: 0.8.3.1
-Date: 2022-03-20
+Version: 0.8.4
+Date: 2022-04-11
 Authors@R: 
   c(person(given = "Mads",
            family = "Lindskou",
-	   email = "mads@math.aau.dk",
+	   email = "madslindskou@gmail.com",
            role = c("aut", "cre")))
 Description: Fast Multiplication and Marginalization of Sparse Tables.
 Encoding: UTF-8
@@ -17,11 +17,12 @@ SystemRequirements: C++11
 ByteCompile: Yes
 NeedsCompilation: yes
 RoxygenNote: 7.1.2
-Suggests: tinytest
+Suggests: rmarkdown, knitr, tinytest
 URL: https://github.com/mlindsk/sparta
 BugReports: https://github.com/mlindsk/sparta/issues
-Packaged: 2022-03-20 07:26:01 UTC; mads
+VignetteBuilder: knitr
+Packaged: 2022-04-11 18:51:21 UTC; mads
 Author: Mads Lindskou [aut, cre]
-Maintainer: Mads Lindskou <mads@math.aau.dk>
+Maintainer: Mads Lindskou <madslindskou@gmail.com>
 Repository: CRAN
-Date/Publication: 2022-03-20 07:50:02 UTC
+Date/Publication: 2022-04-12 07:20:07 UTC
