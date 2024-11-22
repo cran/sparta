@@ -5,6 +5,8 @@
 #' @param x array-like object or a data.frame
 #' @return A sparta object
 #' @seealso \code{\link{as_array}}
+#' @references
+#' <doi:10.18637/jss.v111.i02>
 #' @examples
 #'
 #' # ----------

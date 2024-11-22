@@ -104,3 +104,6 @@ mult(sx, sun)
 so <- sparta_ones(dim_names(sx))
 mult(so, 2)
 }
+\references{
+<doi:10.18637/jss.v111.i02>
+}

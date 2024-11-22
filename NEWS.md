@@ -1,3 +1,8 @@
+# sparta v1.0.1 (2022-11-22)
+
+ * Stable release due to submission in Journal of Statistical Software
+
+
 # sparta v0.8.4 (2022-04-11)
 
  * Vignette is now included.

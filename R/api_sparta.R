@@ -58,6 +58,8 @@ merge <- function(x, y, mult = TRUE) {
 #' @param x sparta object or scalar
 #' @param y sparta object or scalar
 #' @return A sparta object or a scalar
+#' @references
+#' <doi:10.18637/jss.v111.i02>
 #' @examples
 #'
 #' # ----------

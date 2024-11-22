@@ -57,6 +57,9 @@ y[] <- lapply(y, as.character)
 as_sparta(y)
 
 }
+\references{
+<doi:10.18637/jss.v111.i02>
+}
 \seealso{
 \code{\link{as_array}}
 }

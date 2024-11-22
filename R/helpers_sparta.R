@@ -310,6 +310,7 @@ vals.sparta <- function(x) attr(x, "vals")
 get_values <- function(x) UseMethod("get_values")
 
 #' @rdname getter
+#' @export
 get_values.sparta <- function(x) attr(x, "vals")
 
 #' @rdname getter
